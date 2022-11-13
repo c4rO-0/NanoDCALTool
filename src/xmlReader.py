@@ -17,14 +17,6 @@ def readXML(filePath, outfile_head=''):
     print(cite.hbar+cite.lbar)
     print(cite.hbar+cite.m1+' Checking tags...')
 
-    # tags = ['transm.energyPoints', 'transm.averagedTransmissionCoefficients', 'transm.coordinatesOfKPoints','transm.transmissionCoefficients']
-    # tags = ['transm.coordinatesOfKPoints']
-    tags = ['transm.transmissionCoefficients']
-
-    print(cite.hbar+cite.m2+' find tags:')
-    for t in tags:
-        print(cite.hbar+cite.m2+cite.m1+' '+ t)
-
     print(cite.hbar+cite.lbar)
 
     print(cite.hbar+cite.m1+ ' finding data ...')

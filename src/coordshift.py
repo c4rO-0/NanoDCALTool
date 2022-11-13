@@ -127,16 +127,21 @@ def coord_k_check(coord_k_i):
     print(cite.hbar+cite.m1+' transform stored in the "'+coord_k_i+'" file.')
 
     array = np.loadtxt(coord_k_i)
-
+    
     if len(array.shape) == 1:
         print(cite.hbar+cite.m2+' There are ' , len(array[:]), ' elements in the column.')
         print(cite.hbar+cite.m2+' The column 1 range is [' , np.min(array[:]) , np.max(array[:]) , ']')
+        v_range = [[np.min(array[:]),np.max(array[:])]]
     else:
         print(cite.hbar+cite.m2+' There are ' , len(array[:,0]), ' elements in the column.')
+        v_range = np.zeros((len(array[0,:]), 2))
         for c in range(len(array[0,:])):
             print(cite.hbar+cite.m2+' The column '+str(c+1)+' range is [' , np.min(array[:,c]) , np.max(array[:,c]) , ']')
-    
+            v_range[c] = [np.min(array[:,c]),np.max(array[:,c])]
+
     print(cite.hbar+cite.lbar)
+
+    return v_range
 
 def transpose_matrix_dat(transpose_i, transpose_o):
     print(cite.hbar+cite.m1+' matrix data stored in the "'+transpose_i+'" file.')
