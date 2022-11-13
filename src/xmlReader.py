@@ -56,22 +56,25 @@ def readXML(filePath, outfile_head=''):
                 raw_data_in_str = nameEle.tail
                 # to array
                 data = np.array([float(x) for x in raw_data_in_str.split()]).reshape(tuple(reversed(size))).transpose(axis)
-                if 1 in size:
+                if 1 in size and len(size)>2:
                     size = tuple(x for x in size if x!=1)
                     if(len(size) == 0):
                         size = (1,1)
-                        axis = (0)
                     else:
                         data = data.reshape(size)
 
-                data_all[nameEle.text] = data
-            
                 if (len(size) <= 2):
+
                     save_name = outfile_head+nameEle.text+'.dat'
                     save_path = os.path.dirname(os.path.abspath(save_name))
                     os.makedirs(save_path, exist_ok=True)
                     print(cite.hbar+cite.m2+cite.m1+ ' save data to '+save_name)
+
+                    data_all[nameEle.text] = data
                     np.savetxt(save_name, data)
+                else:
+                    data_all[nameEle.text] = data
+                    
             else:
                 print(cite.hbar+cite.m2+cite.m1+' data type : '+ data_type, ' not supported!')
             print(cite.hbar+cite.dashbar)
