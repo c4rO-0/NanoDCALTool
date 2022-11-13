@@ -26,27 +26,43 @@ def coord_k_transform(coord_k_i, coord_k_o, coord_k_old, coord_k_new):
 
         d = f_new - f_old
         p = t_old - f_old
-        n_p_dn = int(d/p)
-        n_p_up = int(d/p)
 
-        f_new_dn_map = f_new - n_p_dn * p
-        t_new_dn_map = t_new - n_p_dn * p
+        if p == 0. :
+            n_p_dn = 0
+            n_p_up = 0
+            f_new_dn_map = f_new
+            t_new_dn_map = t_new
+            f_new_up_map = f_new
+            t_new_up_map = t_new
 
-        f_new_up_map = f_new - n_p_up * p
-        t_new_up_map = t_new - n_p_up * p
+            shift_dn = f_new - f_old
+            shift_up = f_new - f_old
+        else:
+            n_p_dn = math.floor(d/p)
+            n_p_up = math.ceil(d/p)
+
+            f_new_dn_map = f_new - n_p_dn * p
+            t_new_dn_map = t_new - n_p_dn * p
+
+            shift_dn = n_p_dn * p
+
+            f_new_up_map = f_new - n_p_up * p
+            t_new_up_map = t_new - n_p_up * p
+
+            shift_up = n_p_up * p
 
         print(cite.hbar+cite.m2+" [", f_old, ',', t_old, ']->[',f_new,',',t_new,']')
-        
+
         array_r = np.array([])
         for x in array[:]:
             if x>= f_new and x <= t_new :
                 array_r = np.append(array_r, x)
             elif x >= f_new_dn_map  and x <= t_new_dn_map :
-                array_r = np.append(array_r,x + n_p_dn * p)
+                array_r = np.append(array_r,x + shift_dn)
             elif x >= f_new_up_map  and x  <= t_new_up_map :
-                array_r = np.append(array_r,x + n_p_up * p)
+                array_r = np.append(array_r,x + shift_up)
             else:
-                print(cite.hbar+cite.m2+' unknown x:',x , f_new, t_new, f_new+n_p_dn * p, t_new+n_p_dn * p, f_new+n_p_up * p, t_new+n_p_up * p)
+                print(cite.hbar+cite.m2+' unknown x:',x , f_new, t_new, f_new+shift_dn, t_new+shift_dn, f_new+shift_up, t_new+shift_up)
                 return
         np.savetxt(coord_k_o, array_r)
 
@@ -63,14 +79,31 @@ def coord_k_transform(coord_k_i, coord_k_o, coord_k_old, coord_k_new):
 
             d = f_new - f_old
             p = t_old - f_old
-            n_p_dn = int(d/p)
-            n_p_up = math.ceil(d/p)
 
-            f_new_dn_map = f_new - n_p_dn * p
-            t_new_dn_map = t_new - n_p_dn * p
+            if p == 0. :
+                n_p_dn = 0
+                n_p_up = 0
+                f_new_dn_map = f_new
+                t_new_dn_map = t_new
+                f_new_up_map = f_new
+                t_new_up_map = t_new
 
-            f_new_up_map = f_new - n_p_up * p
-            t_new_up_map = t_new - n_p_up * p
+                shift_dn = f_new - f_old
+                shift_up = f_new - f_old
+            else:
+                n_p_dn = math.floor(d/p)
+                n_p_up = math.ceil(d/p)
+
+                f_new_dn_map = f_new - n_p_dn * p
+                t_new_dn_map = t_new - n_p_dn * p
+
+                shift_dn = n_p_dn * p
+
+                f_new_up_map = f_new - n_p_up * p
+                t_new_up_map = t_new - n_p_up * p
+
+                shift_up = n_p_up * p
+
 
             print(cite.hbar+cite.m2+" [", f_old, ',', t_old, ']->[',f_new,',',t_new,']')
 
@@ -79,11 +112,11 @@ def coord_k_transform(coord_k_i, coord_k_o, coord_k_old, coord_k_new):
                 if x>= f_new and x <= t_new :
                     array_r = np.append(array_r, x)
                 elif x >= f_new_dn_map  and x <= t_new_dn_map :
-                    array_r = np.append(array_r,x + n_p_dn * p)
+                    array_r = np.append(array_r,x + shift_dn)
                 elif x >= f_new_up_map  and x  <= t_new_up_map :
-                    array_r = np.append(array_r,x + n_p_up * p)
+                    array_r = np.append(array_r,x + shift_up)
                 else:
-                    print(cite.hbar+cite.m2+' unknown x:',x , f_new, t_new, f_new+n_p_dn * p, t_new+n_p_dn * p, f_new+n_p_up * p, t_new+n_p_up * p)
+                    print(cite.hbar+cite.m2+' unknown x:',x , f_new, t_new, f_new+shift_dn, t_new+shift_dn, f_new+shift_up, t_new+shift_up)
                     return
             array[:,c] = array_r
         
