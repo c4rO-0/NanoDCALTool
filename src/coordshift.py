@@ -11,6 +11,9 @@ from src import cite
 def coord_k_transform(coord_k_i, coord_k_o, coord_k_old, coord_k_new):
     print(cite.hbar+cite.m1+' transformed data stored in the "'+coord_k_i+'" file.')
 
+    save_path = os.path.dirname(os.path.abspath(coord_k_o))
+    os.makedirs(save_path, exist_ok=True)
+
     array = np.loadtxt(coord_k_i)
     if len(array.shape) == 1:
         print(cite.hbar+cite.m2+" transforming colum:", 1, ' of ', 1, ' ...')
@@ -100,4 +103,18 @@ def coord_k_check(coord_k_i):
         for c in range(len(array[0,:])):
             print(cite.hbar+cite.m2+' The column '+str(c+1)+' range is [' , np.min(array[:,c]) , np.max(array[:,c]) , ']')
     
+    print(cite.hbar+cite.lbar)
+
+def transpose_matrix_dat(transpose_i, transpose_o):
+    print(cite.hbar+cite.m1+' matrix data stored in the "'+transpose_i+'" file.')
+
+    save_path = os.path.dirname(os.path.abspath(transpose_o))
+    os.makedirs(save_path, exist_ok=True)
+
+    array = np.loadtxt(transpose_i)
+    print(cite.hbar+cite.m1+' the shape of the matrix : ', array.shape)
+    # print(array)
+    np.savetxt(transpose_o, array.T)
+    print(cite.hbar+cite.m1+' the shape of the transposed matrix : ', array.T.shape)
+    print(cite.hbar+cite.m1+' transposed matrix data stored in the "'+transpose_o+'" file.')
     print(cite.hbar+cite.lbar)
