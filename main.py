@@ -130,34 +130,35 @@ if __name__ == '__main__':
         transpose_o = os.path.join(save_path , coord_name+"_transpose.dat")
         coord_k_o = os.path.join(save_path   , coord_name+"_transpose_shift.dat")
 
+        if os.path.exists(transpose_i):
+            coordshift.transpose_matrix_dat(transpose_i,transpose_o)
 
-        coordshift.transpose_matrix_dat(transpose_i,transpose_o)
+        if os.path.exists(transpose_o):
+            # shift - range
+            v_range = coordshift.coord_k_check(transpose_o)
 
-        # shift - range
-        v_range = coordshift.coord_k_check(transpose_o)
+            v_range_smooth = np.zeros((len(v_range),2))
+            v_range_shift = np.zeros((len(v_range),2))
+            for i in range(len(v_range)):
+                v = v_range[i]
+                s = v[0]
+                e = v[1]
 
-        v_range_smooth = np.zeros((len(v_range),2))
-        v_range_shift = np.zeros((len(v_range),2))
-        for i in range(len(v_range)):
-            v = v_range[i]
-            s = v[0]
-            e = v[1]
+                if s >=0.:
+                    s = float(math.ceil(s))
+                else:
+                    s = -1.*float(math.ceil(-1.*s))
 
-            if s >=0.:
-                s = float(math.ceil(s))
-            else:
-                s = -1.*float(math.ceil(-1.*s))
+                if e >=0.:
+                    e = float(math.ceil(e))
+                else:
+                    e = -1.*float(math.ceil(-1.*e))
 
-            if e >=0.:
-                e = float(math.ceil(e))
-            else:
-                e = -1.*float(math.ceil(-1.*e))
+                s_shift = s - (e-s)/2.
+                e_shift = s + (e-s)/2. 
 
-            s_shift = s - (e-s)/2.
-            e_shift = s + (e-s)/2. 
+                v_range_smooth[i] = [s, e]
+                v_range_shift[i] = [s_shift, e_shift]
 
-            v_range_smooth[i] = [s, e]
-            v_range_shift[i] = [s_shift, e_shift]
-
-        coordshift.coord_k_transform(transpose_o, coord_k_o, v_range_smooth, v_range_shift)
+            coordshift.coord_k_transform(transpose_o, coord_k_o, v_range_smooth, v_range_shift)
         
