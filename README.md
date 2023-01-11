@@ -8,16 +8,16 @@ Here we choose the conda to install the environment depended.
 - create conda environment
 
     ``` bash
-    $ conda create -n deepDH python=3.9
+    $ conda create -n NanoDCALTool python=3.9
     ```
 - active environment
 
     ``` bash
-    $ conda activate deepDH
+    $ conda activate NanoDCALTool
     ```
 - install requirements
     ``` bash
-    $ conda activate deepDH
+    $ conda activate NanoDCALTool
     # 
     $ conda install --yes --file requirements.txt
     # or install with pip, if you like you can add " -i https://pypi.tuna.tsinghua.edu.cn/simple" to use a mirror in China
